@@ -103,13 +103,20 @@ function handleCondition(variable, condition) {
   return result;
 }
 
-module.exports =  function parser(input) {
+module.exports = function parser(input) {
+  //if used in gulp
+  let buffer = false;
+  if (typeof input.isBuffer === 'function' && input.isBuffer()) {
+   	buffer = input;
+    input = input.contents.toString();
+  }	
+
   //if used as webpack-loader
   if (this && typeof this.cacheable === 'function') {
     this.cacheable();
   }
   
-  return findBranches(input)
+  let data = findBranches(input)
     .map(branch => parseBranch(branch))
     .map(branch => transformBranch(branch))
     .reduce(
@@ -119,6 +126,11 @@ module.exports =  function parser(input) {
       input
     )
   ;
-};
 
-//need to use module.exports here for webpack-loaders
+  if (buffer) {
+  	buffer.contents = new Buffer(data);
+  	return buffer;
+  } else {
+  	return data;
+  }
+};

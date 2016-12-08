@@ -1,4 +1,5 @@
-import parser from '../build/index.js';
+require('babel-register');
+var parser = require('../build');
 
 let input = ` 
   function calc(method, x, y) {

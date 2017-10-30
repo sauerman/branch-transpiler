@@ -4,7 +4,8 @@
   "description": "",
   "main": "build/index.js",
   "scripts": {
-    "build": "babel src -d build"
+    "build": "babel src -d build",
+    "test": "node test/index.js"
   },
   "author": "Maximilian Sauermann",
   "license": "ISC",
